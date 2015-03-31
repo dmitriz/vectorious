@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Vectorious by mateogianolio</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Vectorious</h1>
+        <h2>A generalized n-dimensional matrix and vector library in JavaScript.</h2>
+        <a href="https://github.com/mateogianolio/vectorious" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="vectorious" class="anchor" href="#vectorious" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vectorious</h1>
+
+<p><img src="https://img.shields.io/npm/dm/vectorious.svg?style=flat-square" alt="npm"></p>
+
+<p>Vectorious is a generalized n-dimensional matrix and vector library written in JavaScript, which can be used both in node.js and the browser.</p>
+
+<p>Clone or install with</p>
+
+<div class="highlight highlight-bash"><pre>$ npm install vectorious</pre></div>
+
+<h2>
+<a id="extensions" class="anchor" href="#extensions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extensions</h2>
+
+<ul>
+<li>
+<a href="https://github.com/mateogianolio/vectorious-solve">vectorious-solve</a> - Solves linear systems of equations of the form Ax = B.</li>
+<li>
+<a href="https://github.com/mateogianolio/vectorious-plot">vectorious-plot</a> - Generates a two-dimensional SVG plot from two input vectors.</li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>The constructors of both <code>Matrix</code> and <code>Vector</code> are designed to be flexible, so they can be initialized using several different arguments.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> vectorious <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>vectorious<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> vector,
+    matrix;
+
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>();
+<span class="pl-c">// { values: [], length: 0 }</span>
+
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>();
+<span class="pl-c">// { rows: [] }</span>
+
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>().zeros(<span class="pl-c1">5</span>);
+<span class="pl-c">// { values: [0, 0, 0, 0, 0], length: 5 }</span>
+
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>);
+<span class="pl-c">// { values: [1, 2, 3, 4, 5], length: 5 }</span>
+
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>(vector);
+<span class="pl-c">// { rows: [ { values: [1, 2, 3, 4, 5], length: 5 } ] }</span>
+
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>().zeros(<span class="pl-c1">2</span>, <span class="pl-c1">2</span>);
+<span class="pl-c">/* {</span>
+<span class="pl-c">  rows: [</span>
+<span class="pl-c">    { values: [0, 0], length: 2 },</span>
+<span class="pl-c">    { values: [0, 0], length: 2 }</span>
+<span class="pl-c">  ]</span>
+<span class="pl-c">} */</span>
+
+<span class="pl-k">var</span> input <span class="pl-k">=</span> [
+  [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>],
+  [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
+];
+
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>(input);
+<span class="pl-c">/* {</span>
+<span class="pl-c">  rows: [</span>
+<span class="pl-c">    { values: [1, 2], length: 2 },</span>
+<span class="pl-c">    { values: [3, 4], length: 2 }</span>
+<span class="pl-c">  ]</span>
+<span class="pl-c">} */</span></pre></div>
+
+<p>Now that you've got a hang of the basics, let me show you a useful application example.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> time <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>().range(<span class="pl-c1">0</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span> / <span class="pl-c1">12</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span>);
+<span class="pl-c">/* {</span>
+<span class="pl-c">  values: </span>
+<span class="pl-c">   [ 0,</span>
+<span class="pl-c">     0.2617993877991494,</span>
+<span class="pl-c">     0.5235987755982988,</span>
+<span class="pl-c">     0.7853981633974483,</span>
+<span class="pl-c">     1.0471975511965976,</span>
+<span class="pl-c">     1.308996938995747,</span>
+<span class="pl-c">     1.5707963267948963,</span>
+<span class="pl-c">     1.8325957145940457,</span>
+<span class="pl-c">     2.0943951023931953,</span>
+<span class="pl-c">     2.356194490192345,</span>
+<span class="pl-c">     2.6179938779914944,</span>
+<span class="pl-c">     2.879793265790644 ],</span>
+<span class="pl-c">  length: 12 } */</span>
+
+<span class="pl-k">var</span> sine <span class="pl-k">=</span> time.map(<span class="pl-c1">Math</span>.sin);
+<span class="pl-c">/* {</span>
+<span class="pl-c">  values: </span>
+<span class="pl-c">   [ 0,</span>
+<span class="pl-c">     0.25881904510252074,</span>
+<span class="pl-c">     0.49999999999999994,</span>
+<span class="pl-c">     0.7071067811865475,</span>
+<span class="pl-c">     0.8660254037844386,</span>
+<span class="pl-c">     0.9659258262890682,</span>
+<span class="pl-c">     1,</span>
+<span class="pl-c">     0.9659258262890684,</span>
+<span class="pl-c">     0.8660254037844387,</span>
+<span class="pl-c">     0.7071067811865476,</span>
+<span class="pl-c">     0.49999999999999994,</span>
+<span class="pl-c">     0.2588190451025206 ],</span>
+<span class="pl-c">  length: 12 } */</span></pre></div>
+
+<h2>
+<a id="matrix" class="anchor" href="#matrix" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matrix</h2>
+
+<p>The following matrix operations and methods are implemented in <code>matrix.js</code>.</p>
+
+<ul>
+<li><code>add</code></li>
+<li><code>subtract</code></li>
+<li><code>scale</code></li>
+<li><code>multiply</code></li>
+<li><code>transpose</code></li>
+<li><code>gauss</code></li>
+<li><code>diag</code></li>
+<li><code>augment</code></li>
+<li><code>trace</code></li>
+<li><code>identity</code></li>
+<li><code>zeros</code></li>
+<li><code>ones</code></li>
+<li><code>equals</code></li>
+<li><code>get</code></li>
+<li><code>set</code></li>
+<li><code>swap</code></li>
+<li><code>map</code></li>
+<li><code>each</code></li>
+<li><code>toString</code></li>
+<li><code>toArray</code></li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Matrix) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">add</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">matrix</span>)</pre></div>
+
+<p>Add two matrices together.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Matrix) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">subtract</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">matrix</span>)</pre></div>
+
+<p>Subtract two matrices.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">scale</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">scalar</span>)</pre></div>
+
+<p>Multiply all elements in matrix with a scalar.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Matrix) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">multiply</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">matrix</span>)</pre></div>
+
+<p>Multiply two matrices together.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">transpose</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Transpose a matrix.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Boolean) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">gauss</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">reduce</span>)</pre></div>
+
+<p>Convert a matrix to (reduced) row echelon form.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix) =&gt; (Vector)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">diag</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Get matrix diagonal as a <code>Vector</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Matrix) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">augment</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">matrix</span>)</pre></div>
+
+<p>Create an augmented matrix.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix) =&gt; (Number)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">trace</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Get matrix trace (the sum of the diagonal).</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">identity</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">size</span>)</pre></div>
+
+<p>Create an identity matrix.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+
+<p>Create an <code>i x j</code> matrix of zeros.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+
+<p>Create an <code>i x j</code> matrix of ones.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Matrix) =&gt; (Boolean)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">equals</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">matrix</span>)</pre></div>
+
+<p>Compare two matrices.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number, Number) =&gt; (Number)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">get</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+
+<p>Get element at row <code>i</code>, column <code>j</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number, Number, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">set</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>, <span class="pl-smi">value</span>)</pre></div>
+
+<p>Set the value of an element at row <code>i</code>, column <code>j</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Number, Number) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">swap</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+
+<p>Swaps the position of rows <code>i</code> and <code>j</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Function) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">map</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">callback</span>)</pre></div>
+
+<p>Maps a function <code>callback</code> to all elements of the matrix.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix, Function) =&gt; (Matrix)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">each</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">callback</span>)</pre></div>
+
+<p>Calls <code>callback(row, index)</code> for each row in the matrix.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix) =&gt; (String)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">toString</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Convert matrix to string.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Matrix) =&gt; (Array)</span>
+<span class="pl-c1">Matrix</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">toArray</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Convert matrix to array.</p>
+
+<h2>
+<a id="vector" class="anchor" href="#vector" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vector</h2>
+
+<p>The following vector operations and methods are implemented in <code>vector.js</code>.</p>
+
+<ul>
+<li><code>add</code></li>
+<li><code>subtract</code></li>
+<li><code>scale</code></li>
+<li><code>normalize</code></li>
+<li><code>dot</code></li>
+<li><code>magnitude</code></li>
+<li><code>angle</code></li>
+<li><code>project</code></li>
+<li><code>zeros</code></li>
+<li><code>ones</code></li>
+<li><code>range</code></li>
+<li><code>equals</code></li>
+<li><code>get</code></li>
+<li><code>min</code></li>
+<li><code>max</code></li>
+<li><code>set</code></li>
+<li><code>combine</code></li>
+<li><code>push</code></li>
+<li><code>map</code></li>
+<li><code>each</code></li>
+<li><code>toString</code></li>
+<li><code>toArray</code></li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">add</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Add two vectors together.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">subtract</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Subtract two vectors.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">scale</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">scalar</span>)</pre></div>
+
+<p>Multiply a vector by a scalar.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">normalize</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Normalize a vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Number)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">dot</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Get dot product of two vectors.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector) =&gt; (Number)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">magnitude</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Get magnitude of vector (Pythagoras).</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Angle)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">angle</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Get the angle (in radians) between two vectors.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">project</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Project a vector onto another vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>)</pre></div>
+
+<p>Create a vector of <code>count</code> zeros.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>)</pre></div>
+
+<p>Create a vector of <code>count</code> ones.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number, [Number], Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">range</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">start</span>, [<span class="pl-smi">step</span>], <span class="pl-smi">end</span>)</pre></div>
+
+<p>Create a vector containing the range from <code>start</code> to <code>end</code> in steps of <code>step</code> (optional).</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Boolean)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">equals</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Compare two vectors.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Number)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">get</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">index</span>)</pre></div>
+
+<p>Get value of an element at <code>index</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Number)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">min</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Get the minimum value of a vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Number)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">max</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Get the maximum value of a vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number, Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">set</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">index</span>, <span class="pl-smi">value</span>)</pre></div>
+
+<p>Set value of an element at <code>index</code>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Vector) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">combine</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">vector</span>)</pre></div>
+
+<p>Combines two vectors.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Number) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">push</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">value</span>)</pre></div>
+
+<p>Pushes <code>value</code> into the vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Function) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">map</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">callback</span>)</pre></div>
+
+<p>Maps a function <code>callback</code> to all elements of the vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector, Function) =&gt; (Vector)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">each</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">callback</span>)</pre></div>
+
+<p>Calls <code>callback(value, index)</code> for each element in the vector.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector) =&gt; (String)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">toString</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Convert vector to string.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// (Vector) =&gt; (Array)</span>
+<span class="pl-c1">Vector</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">toArray</span> <span class="pl-k">=</span> <span class="pl-k">function</span>()</pre></div>
+
+<p>Convert vector to array.</p>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h2>
+
+<ul>
+<li>Add testing suite</li>
+<li>Add more useful operations :)</li>
+</ul>
+
+<h2>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute</h2>
+
+<p>Feel free to fork and commit pull requests. If you have any problems just submit an issue or send me an email.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/mateogianolio/vectorious/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/mateogianolio/vectorious/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/mateogianolio/vectorious"></a> is maintained by <a href="https://github.com/mateogianolio">mateogianolio</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-41408481-8");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
