@@ -1,0 +1,1 @@
+cmd_Release/vector.node := ./gyp-mac-tool flock ./Release/linker.lock c++ -bundle -Wl,-search_paths_first -mmacosx-version-min=10.5 -arch x86_64 -L./Release  -o Release/vector.node Release/obj.target/vector/src/vector.o Release/obj.target/vector/src/add.o Release/obj.target/vector/src/subtract.o -undefined dynamic_lookup

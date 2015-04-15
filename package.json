@@ -34,6 +34,7 @@
     "vinyl-transform": "^1.0.0"
   },
   "dependencies": {
-    "mocha": "^2.2.1"
+    "mocha": "^2.2.1",
+    "nan": "^1.7.0"
   }
 }
