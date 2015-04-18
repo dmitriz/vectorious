@@ -28,15 +28,15 @@
         </ul>
       </header>
       <section>
-        <p><img src="https://img.shields.io/npm/v/vectorious.svg?style=flat-square" alt="npm version"> <img src="https://img.shields.io/npm/dm/vectorious.svg?style=flat-square" alt="npm downloads"> <img src="https://img.shields.io/travis/mateogianolio/vectorious.svg?style=flat-square" alt="travis"></p>
+        <h1>
+<a id="vectorious" class="anchor" href="#vectorious" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vectorious</h1>
+
+<p><img src="https://img.shields.io/npm/v/vectorious.svg?style=flat-square" alt="npm version"> <img src="https://img.shields.io/npm/dm/vectorious.svg?style=flat-square" alt="npm downloads"> <img src="https://img.shields.io/travis/mateogianolio/vectorious.svg?style=flat-square" alt="travis"></p>
 
 <p>Vectorious is a generalized n-dimensional matrix and vector library written in JavaScript, which can be used both in node.js and the browser.</p>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
-
-<h4>
-<a id="in-nodejs" class="anchor" href="#in-nodejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>In Node.js:</h4>
 
 <p>Install with <code>npm</code></p>
 
@@ -44,14 +44,18 @@
 
 <p>Test with</p>
 
-<div class="highlight highlight-bash"><pre>$ mocha</pre></div>
+<div class="highlight highlight-bash"><pre>$ npm <span class="pl-c1">test</span></pre></div>
+
+<p>Run benchmarks with</p>
+
+<div class="highlight highlight-bash"><pre>$ npm run benchmark</pre></div>
 
 <h4>
-<a id="in-the-browser" class="anchor" href="#in-the-browser" aria-hidden="true"><span class="octicon octicon-link"></span></a>In the browser:</h4>
+<a id="for-the-browser" class="anchor" href="#for-the-browser" aria-hidden="true"><span class="octicon octicon-link"></span></a>For the browser</h4>
 
-<p>Download <code>dist/vectorious-2.0.0.js</code> and use it like this:</p>
+<p>Download a <a href="https://github.com/mateogianolio/vectorious/releases">release</a> and use it like this:</p>
 
-<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>vectorious-2.0.0.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>vectorious-2.x.x.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
 <span class="pl-s1">&lt;<span class="pl-ent">script</span>&gt;</span>
 <span class="pl-s1">  <span class="pl-c">// e.g. var vector = new vectorious.Vector()</span></span>
 <span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span></pre></div>
@@ -61,47 +65,44 @@
 
 <ul>
 <li>
-<a href="https://github.com/mateogianolio/vectorious-solve">Solve</a>
-
-<ul>
-<li>Solves matrix equations of the form Ax = B.</li>
-</ul>
+<a href="https://github.com/mateogianolio/vectorious-solve"><strong>Solve</strong></a> — <em>Solves matrix equations of the form Ax = B.</em>
 </li>
 <li>
-<a href="https://github.com/mateogianolio/vectorious-plot">Plot</a>
-
-<ul>
-<li>Generates a two-dimensional SVG plot from two input vectors.</li>
-</ul>
+<a href="https://github.com/mateogianolio/vectorious-plot"><strong>Plot</strong></a> — <em>Generates a two-dimensional SVG plot from two input vectors.</em>
 </li>
 </ul>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>The constructors of both <code>Matrix</code> and <code>Vector</code> are designed to be flexible, so they can be initialized using several different arguments.</p>
+<p>The constructors of both <code>Matrix</code> and <code>Vector</code> are designed to be flexible, so they can be initialized using several different arguments. Since 2.1.0 <code>Vector</code> implements <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays">JavaScript typed arrays</a> for increased performance. The default <code>Vector</code> type is <code>Float64Array</code>, but this can be specified upon creation.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> vectorious <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>vectorious<span class="pl-pds">'</span></span>);
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> vectorious <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>vectorious<span class="pl-pds">'</span></span>),
+    Vector <span class="pl-k">=</span> vectorious.Vector,
+    Matrix <span class="pl-k">=</span> vectorious.Matrix;
 
 <span class="pl-k">var</span> vector,
     matrix;
 
-vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>();
-<span class="pl-c">// { values: [], length: 0 }</span>
+<span class="pl-c">// Create an empty vector of default type Float64Array</span>
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Vector</span>();
 
-matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>();
+<span class="pl-c">// Create an empty vector of type Uint8Array</span>
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Vector</span>(Uint8Array);
+
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Matrix</span>();
 <span class="pl-c">// { rows: [] }</span>
 
-vector <span class="pl-k">=</span> vectorious.Vector.zeros(<span class="pl-c1">5</span>);
+vector <span class="pl-k">=</span> Vector.zeros(<span class="pl-c1">5</span>);
 <span class="pl-c">// { values: [0, 0, 0, 0, 0], length: 5 }</span>
 
-vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Vector</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>);
+vector <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Vector</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>, <span class="pl-c1">4</span>, <span class="pl-c1">5</span>);
 <span class="pl-c">// { values: [1, 2, 3, 4, 5], length: 5 }</span>
 
-matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>(vector);
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Matrix</span>(vector);
 <span class="pl-c">// { rows: [ { values: [1, 2, 3, 4, 5], length: 5 } ] }</span>
 
-matrix <span class="pl-k">=</span> vectorious.Matrix.zeros(<span class="pl-c1">2</span>, <span class="pl-c1">2</span>);
+matrix <span class="pl-k">=</span> Matrix.zeros(<span class="pl-c1">2</span>, <span class="pl-c1">2</span>);
 <span class="pl-c">/* {</span>
 <span class="pl-c">  rows: [</span>
 <span class="pl-c">    { values: [0, 0], length: 2 },</span>
@@ -114,7 +115,7 @@ matrix <span class="pl-k">=</span> vectorious.Matrix.zeros(<span class="pl-c1">2
   [<span class="pl-c1">3</span>, <span class="pl-c1">4</span>]
 ];
 
-matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">vectorious.Matrix</span>(input);
+matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Matrix</span>(input);
 <span class="pl-c">/* {</span>
 <span class="pl-c">  rows: [</span>
 <span class="pl-c">    { values: [1, 2], length: 2 },</span>
@@ -124,7 +125,7 @@ matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl
 
 <p>Now that you've got a hang of the basics, let me show you a useful application example.</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> time <span class="pl-k">=</span> vectorious.Vector.range(<span class="pl-c1">0</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span> / <span class="pl-c1">12</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span>);
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> time <span class="pl-k">=</span> Vector.range(<span class="pl-c1">0</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span> / <span class="pl-c1">12</span>, <span class="pl-c1">Math</span>.<span class="pl-c1">PI</span>);
 <span class="pl-c">/* {</span>
 <span class="pl-c">  values: </span>
 <span class="pl-c">   [ 0,</span>
@@ -157,6 +158,8 @@ matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl
 <span class="pl-c">     0.49999999999999994,</span>
 <span class="pl-c">     0.2588190451025206 ],</span>
 <span class="pl-c">  length: 12 } */</span></pre></div>
+
+<p>For more advanced uses, check out the extensions <a href="https://github.com/mateogianolio/vectorious-solve">solve</a> and <a href="https://github.com/mateogianolio/vectorious-plot">plot</a>.</p>
 
 <h2>
 <a id="vector" class="anchor" href="#vector" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vector</h2>
@@ -252,23 +255,23 @@ matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl
 <p id="vector_zeros"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number) =&gt; (Vector)</span>
-<span class="pl-c1">Vector</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>)</pre></div>
+<span class="pl-c1">Vector</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create a vector of <code>count</code> zeros.</p>
+<p>Create a vector of <code>count</code> zeros. <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="vector_ones"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number) =&gt; (Vector)</span>
-<span class="pl-c1">Vector</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>)</pre></div>
+<span class="pl-c1">Vector</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">count</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create a vector of <code>count</code> ones.</p>
+<p>Create a vector of <code>count</code> ones. <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="vector_range"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number, [Number], Number) =&gt; (Vector)</span>
-<span class="pl-c1">Vector</span>.<span class="pl-en">range</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">start</span>, [<span class="pl-smi">step</span>], <span class="pl-smi">end</span>)</pre></div>
+<span class="pl-c1">Vector</span>.<span class="pl-en">range</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">start</span>, [<span class="pl-smi">step</span>], <span class="pl-smi">end</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create a vector containing the range from <code>start</code> to <code>end</code> in steps of <code>step</code> (optional).</p>
+<p>Create a vector containing the range from <code>start</code> to <code>end</code> in steps of <code>step</code> (optional). <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="vector_equals"></p>
 
@@ -455,23 +458,23 @@ matrix <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl
 <p id="matrix_identity"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number) =&gt; (Matrix)</span>
-<span class="pl-c1">Matrix</span>.<span class="pl-en">identity</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">size</span>)</pre></div>
+<span class="pl-c1">Matrix</span>.<span class="pl-en">identity</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">size</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create an <a href="http://en.wikipedia.org/wiki/Identity_matrix">identity matrix</a>.</p>
+<p>Create an <a href="http://en.wikipedia.org/wiki/Identity_matrix">identity matrix</a>. <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="matrix_zeros"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number, Number) =&gt; (Matrix)</span>
-<span class="pl-c1">Matrix</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+<span class="pl-c1">Matrix</span>.<span class="pl-en">zeros</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create an <code>i x j</code> matrix of zeros.</p>
+<p>Create an <code>i x j</code> matrix of zeros. <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="matrix_ones"></p>
 
 <div class="highlight highlight-javascript"><pre><span class="pl-c">// (Number, Number) =&gt; (Matrix)</span>
-<span class="pl-c1">Matrix</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>)</pre></div>
+<span class="pl-c1">Matrix</span>.<span class="pl-en">ones</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">i</span>, <span class="pl-smi">j</span>, [<span class="pl-smi">type</span>])</pre></div>
 
-<p>Create an <code>i x j</code> matrix of ones.</p>
+<p>Create an <code>i x j</code> matrix of ones. <code>type</code> is optional and specifies the type of <code>TypedArray</code> used in computations.</p>
 
 <p id="matrix_equals"></p>
 
