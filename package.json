@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "memcpy": "^0.5.0",
-    "mocha": "^2.2.1"
+    "mocha": "^3.0.0"
   }
 }
